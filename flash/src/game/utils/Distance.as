@@ -6,8 +6,7 @@
     public class Distance {
 
 		static public function toPoint (distance:int): Point {
-            var max:int,
-                tX:int,             // Max tiles in X axis
+            var tX:int,             // Max tiles in X axis
                 tY:int,             // Max tiles in Y axis
                 p:Point,            // Point
                 stoped_oX:Boolean,  // Not move in x axis
@@ -37,7 +36,28 @@
                 p.y += (distance % (tX + tY)) - tX;
             }
 
+            p.y = -p.y;
+
             return p;
+        }
+
+        static public function toOrientation (distance:int): String {
+            var tX:int,             // Max tiles in X axis
+                tY:int,             // Max tiles in Y axis
+                p:Point,            // Point
+                stoped_oX:Boolean,  // Not move in x axis
+                oX:int;             // Orientation in X axis, -1 (left) and 1 (right)
+
+            tX = Global.canvasW - Global.tileSize;
+            tY = (Global.tilesY * Global.tileSize) - Global.tileSize;
+            oX = 0;
+
+            oX = (distance % ((tX + tY) * 2)) < (tX + tY) ? 1 : -1;
+            stoped_oX = !(distance % (tX + tY) < (tX));
+
+            return stoped_oX
+                        ? 'up'
+                        : (oX === -1 ? 'left' : 'right');
         }
 
 	}
