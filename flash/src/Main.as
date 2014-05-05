@@ -9,10 +9,12 @@
 
     import game.utils.*;
     import game.*;
+    import fl.motion.Color;
 
     public class Main extends Sprite {
-        private var tiles:Dictionary    = new Dictionary();
-        private var player:Player       = new Player;
+        private var tiles:Dictionary        = new Dictionary();
+        private var players:Array 			= new Array;
+        private var minY:int                = 0;
 
         public function Main() {
             stage.align = StageAlign.TOP_LEFT;
@@ -21,8 +23,21 @@
             Global.canvas = new Canvas;
 
             resize();
+            minY = Math.floor(stage.stageHeight - (Global.tileSize / 2));
+
+            var player = new Player;
+            var player2 = new Player;
+
+            var c:Color = new Color();
+            c.setTint(0xFF0000, 0.5);
+            player.transform.colorTransform = c;
 
             Global.canvas.addChild(player);
+            Global.canvas.addChild(player2);
+
+            players.push(player);
+            players.push(player2);
+
             this.addChild(Global.canvas);
 
             stage.addEventListener(Event.ENTER_FRAME, update);
@@ -35,7 +50,7 @@
                 i:int,
                 point:Point;
 
-            max = 40;
+            max = 400;
 
             for (i = 0; i < max; i ++) {
                 t = new Tile;
@@ -52,9 +67,17 @@
         }
 
         private function update (e:Event): void {
-            player.distance++;
+            players.sortOn('distance', Array.DESCENDING);
+            
+            for each (var player:Player in players) {
+                player.distance += ~~(Math.random() * 5);
+                player.gotoAndPlay(Distance.toOrientation(player.distance));
 
-            trace(Distance.toOrientation(player.distance));
+                player.parent.setChildIndex(player, player.parent.numChildren -1);
+            }
+
+            Global.canvas.y = stage.stageHeight - 200 - player.y;
+            Global.canvas.y = (Global.canvas.y < minY) ? minY : Global.canvas.y;
         }
 
         private function onResize (e:Event): void {
@@ -63,7 +86,7 @@
 
         private function resize (): void {
             Global.tileSize = 50;
-            Global.tilesY   = 3;
+            Global.tilesY   = Math.round(Math.random() * 5) + 3;
 
             Global.canvasW  = Math.floor(stage.stageWidth / Global.tileSize) * Global.tileSize;
 
@@ -74,7 +97,6 @@
             drawTiles();
 
             Global.canvas.x = Math.round(((stage.stageWidth - Global.canvasW) / 2) + (Global.tileSize / 2));
-            Global.canvas.y = stage.stageHeight - (Global.tileSize / 2);
         }
     }
 

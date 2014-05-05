@@ -1,9 +1,9 @@
 ﻿package game {
 
-	import flash.display.Sprite;
+	import flash.display.MovieClip;
     import game.utils.Distance;
 
-	public class Player extends Sprite {
+	public class Player extends MovieClip {
 		private var _distance:int = 0;
 
 		public function Player() {
