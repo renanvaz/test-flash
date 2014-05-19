@@ -1,0 +1,11 @@
+TODO
+
+!! Gravar o bootloader
+!! Gravar o cod no arduino
+- Tentar fazer funcionar com a bateria de 3v
+- Fazer a comunicação wireless
+- Testar o envio de FSK
+- Testar o decoder de FSK
+
+http://www.digikey.com/product-detail/en/ATTINY43U-SU/ATTINY43U-SU-ND/1914703
+http://www.atmel.com/images/atmel-8271-8-bit-avr-microcontroller-atmega48a-48pa-88a-88pa-168a-168pa-328-328p_datasheet.pdf
