@@ -10,6 +10,7 @@
     import game.utils.*;
     import game.*;
     import fl.motion.Color;
+    import flash.display.Bitmap;
 
     public class Main extends Sprite {
         private var tiles:Dictionary        = new Dictionary();
@@ -32,16 +33,21 @@
             c.setTint(0xFF0000, 0.5);
             player.transform.colorTransform = c;
 
+            var s = new Scale3(new Bitmap(new TileMap), 96, 32);
+            s.width = 400;
+
+            this.addChild(s);
+
             Global.canvas.addChild(player);
             Global.canvas.addChild(player2);
 
             players.push(player);
             players.push(player2);
 
-            this.addChild(Global.canvas);
+            //this.addChild(Global.canvas);
 
-            stage.addEventListener(Event.ENTER_FRAME, update);
-            stage.addEventListener(Event.RESIZE, onResize);
+            //stage.addEventListener(Event.ENTER_FRAME, update);
+            //stage.addEventListener(Event.RESIZE, onResize);
         }
 
         private function drawTiles (): void {
