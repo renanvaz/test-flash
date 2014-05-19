@@ -54,7 +54,7 @@
 
             for (i = 0; i < max; i ++) {
                 t = new Tile;
-                t.n.text = i.toString();
+                //t.n.text = i.toString();
 
                 point = Distance.toPoint(i * Global.tileSize);
 
@@ -68,7 +68,7 @@
 
         private function update (e:Event): void {
             players.sortOn('distance', Array.DESCENDING);
-            
+
             for each (var player:Player in players) {
                 player.distance += ~~(Math.random() * 5);
                 player.gotoAndPlay(Distance.toOrientation(player.distance));
@@ -85,8 +85,8 @@
         }
 
         private function resize (): void {
-            Global.tileSize = 50;
-            Global.tilesY   = Math.round(Math.random() * 5) + 3;
+            Global.tileSize = 30;
+            Global.tilesY   = 4;
 
             Global.canvasW  = Math.floor(stage.stageWidth / Global.tileSize) * Global.tileSize;
 
