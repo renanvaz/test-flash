@@ -2,8 +2,8 @@ TODO
 
 !! Gravar o bootloader
 !! Gravar o cod no arduino
-- Tentar fazer funcionar com a bateria de 3v
 - Fazer a comunicação wireless
+- Tentar fazer funcionar com a bateria de 3v
 - Testar o envio de FSK
 - Testar o decoder de FSK
 
