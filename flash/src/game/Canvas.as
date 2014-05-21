@@ -9,7 +9,8 @@
         private var _ground:Scale3;
 
         public function Canvas() {
-            this._ground = new Scale3(new Bitmap(new TileMap), 96, 32);
+			var bd = new TileMap;
+            this._ground = new Scale3(new Bitmap(bd), 96, 32);
             this._ground.scaleY = -1;
             this.addChild(this._ground);
             this.addChild(this.bg);
