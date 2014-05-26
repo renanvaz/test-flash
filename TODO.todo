@@ -9,3 +9,8 @@ TODO
 
 http://www.digikey.com/product-detail/en/ATTINY43U-SU/ATTINY43U-SU-ND/1914703
 http://www.atmel.com/images/atmel-8271-8-bit-avr-microcontroller-atmega48a-48pa-88a-88pa-168a-168pa-328-328p_datasheet.pdf
+
+http://ricdon.blogspot.com.br/2013/04/como-instalar-o-windows-8-em-um-pen.html
+http://info.abril.com.br/dicas/windows-linux-e-mac-os/outros-14/windows-to-go-leva-o-windows-8-para-um-hd-externo.shtml
+imagex.exe /apply install.wim 1 F:\
+bcdboot.exe F:\windows /s F:

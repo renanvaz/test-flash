@@ -9,76 +9,59 @@
 
     import game.utils.*;
     import game.*;
+    import game.maps.*;
     import fl.motion.Color;
     import flash.display.Bitmap;
 
     public class Main extends Sprite {
-        private var tiles:Dictionary        = new Dictionary();
-        private var players:Array 			= new Array;
-        private var minY:int                = 0;
+
+        public var player:Player;
+        public var player2:Player;
+        public var grass:Slice3;
+        public var mapContainer:Sprite;
 
         public function Main() {
+            grass = new Slice3(new Bitmap(new Grass), 1, 400 - 2);
+
+
+            addChild(grass);
+            grass.width = stage.stageWidth;
+            grass.height = stage.stageHeight;
+
             stage.align = StageAlign.BOTTOM_LEFT;
             stage.scaleMode = StageScaleMode.NO_SCALE;
 
-            Global.canvas = new Canvas;
+            player = new Player;
+            player2 = new Player;
+
+            this.mapContainer = new Sprite;
+
+            Global.map = new ZigZag;
+            Global.map.follow = player;
 
             resize();
-            minY = Math.floor(Global.canvasH - (Global.tileSize + Global.tileSize / 2));
-
-            var player = new Player;
-            var player2 = new Player;
 
             var c:Color = new Color();
             c.setTint(0xFF0000, 0.5);
             player.transform.colorTransform = c;
 
-            Global.canvas.addChild(player);
-            Global.canvas.addChild(player2);
+            Global.map.addPlayer(player);
+            Global.map.addPlayer(player2);
 
-            players.push(player);
-            players.push(player2);
+            mapContainer.addChild(Global.map);
 
-            this.addChild(Global.canvas);
+            this.addChild(mapContainer);
 
             stage.addEventListener(Event.ENTER_FRAME, update);
             stage.addEventListener(Event.RESIZE, onResize);
         }
 
         private function drawTiles (): void {
-            var max:int,
-                t:Tile,
-                i:int,
-                point:Point;
 
-            max = 400;
-
-            for (i = 0; i < max; i ++) {
-                t = new Tile;
-                //t.n.text = i.toString();
-
-                point = Distance.toPoint(i * Global.tileSize);
-
-                t.x = point.x;
-                t.y = point.y;
-
-                Global.canvas.bg.addChild(t);
-                tiles[i] = t;
-            }
         }
 
         private function update (e:Event): void {
-            players.sortOn('distance', Array.DESCENDING);
-
-            for each (var player:Player in players) {
-                player.distance += ~~(Math.random() * 5);
-                player.gotoAndPlay(Distance.toOrientation(player.distance));
-
-                player.parent.setChildIndex(player, player.parent.numChildren -1);
-            }
-
-            Global.canvas.y = Global.canvasH - 200 - player.y;
-            Global.canvas.y = (Global.canvas.y < minY) ? minY : Global.canvas.y;
+            Global.map.update();
         }
 
         private function onResize (e:Event): void {
@@ -86,21 +69,17 @@
         }
 
         private function resize (): void {
-            Global.tileSize = 32;
-            Global.tilesY   = 4;
+            Global.canvasW = 480;
+            Global.canvasH = stage.stageHeight;
 
-            Global.canvasH  = stage.stageHeight;
-            Global.canvasW  = Math.floor((stage.stageWidth - Global.tileSize * 2) / Global.tileSize) * Global.tileSize;
+            this.mapContainer.x = (stage.stageWidth - Global.canvasW) / 2;
 
-            Global.canvas.draw();
+            trace(this.mapContainer.x);
 
-            for each (var t:Tile in tiles) {
-                t.parent.removeChild(t);
-            }
+            grass.width = stage.stageWidth;
+            grass.height = stage.stageHeight;
 
-            drawTiles();
-
-            Global.canvas.x = Math.round(((stage.stageWidth - Global.canvasW) / 2) + (Global.tileSize / 2));
+            Global.map.draw();
         }
     }
 

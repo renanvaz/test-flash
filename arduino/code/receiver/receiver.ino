@@ -1,3 +1,4 @@
+#include <SPI.h>
 #include <Mirf.h>
 #include <MirfHardwareSpiDriver.h>
 #include <MirfSpiDriver.h>
@@ -7,12 +8,12 @@ int FSK_PIN     = 12;
 int FREQ_LOW    = 220;
 int FREQ_HIGH   = FREQ_LOW * 2;
 int i           = 0;
+int response    = 0;
 
 String msg;
 
 void setup () {
   pinMode(FSK_PIN, OUTPUT);
-  pinMode(SENSOR_PIN, INPUT);
   
   Serial.begin(9600);
   
@@ -29,17 +30,29 @@ void setup () {
 }
 
 void loop () {
-  if (Mirf.dataReady()) {
-      for (i = 0; i < FREQ_HIGH * 0.1; i++) { 
-        digitalWrite(FSK_PIN, HIGH);
-        delay(1000 / FREQ_HIGH / 2);
-        digitalWrite(FSK_PIN, LOW);
-        delay(1000 / FREQ_HIGH / 2);
-      }
-    } else {
+  /*if (Mirf.dataReady()) {
+    for (i = 0; i < FREQ_HIGH * 0.1; i++) { 
       digitalWrite(FSK_PIN, HIGH);
-      delay(1000 / FREQ_LOW / 2);
+      delay(1000 / FREQ_HIGH / 2);
       digitalWrite(FSK_PIN, LOW);
-      delay(1000 / FREQ_LOW / 2);  
+      delay(1000 / FREQ_HIGH / 2);
     }
+  } else {
+    digitalWrite(FSK_PIN, HIGH);
+    delay(1000 / FREQ_LOW / 2);
+    digitalWrite(FSK_PIN, LOW);
+    delay(1000 / FREQ_LOW / 2);  
+  }*/
+  
+  while(!Mirf.dataReady()){
+    // Waiting
+  }
+  
+  Mirf.getData((byte *) &response);
+  
+  if (response == 1) {
+    digitalWrite(FSK_PIN, HIGH);
+  } else {
+    digitalWrite(FSK_PIN, LOW);
+  }
 }

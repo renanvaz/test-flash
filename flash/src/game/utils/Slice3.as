@@ -7,7 +7,7 @@
 	import flash.display.Shape;
     import flash.geom.Matrix;
 
-	public class Scale3 extends Sprite{
+	public class Slice3 extends Sprite{
 
         private var _b:Bitmap;
 
@@ -19,7 +19,7 @@
         private var _width:Number;
         private var _height:Number;
 
-        function Scale3 (b:Bitmap, _x:Number, _w:Number):void {
+        function Slice3 (b:Bitmap, _x:Number, _w:Number):void {
             var _matrix:Matrix,
                 _bd:BitmapData;
 
@@ -105,6 +105,14 @@
 
         public override function get height ():Number {
             return this._height;
+        }
+
+        public function get initialWidth ():Number {
+            return this._b.width;
+        }
+
+        public function get initialHeight ():Number {
+            return this._b.height;
         }
     }
 

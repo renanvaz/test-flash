@@ -1,3 +1,4 @@
+#include <SPI.h>
 #include <Mirf.h>
 #include <MirfHardwareSpiDriver.h>
 #include <MirfSpiDriver.h>
@@ -9,7 +10,6 @@ boolean wait    = false;
 String msg;
 
 void setup () {
-  pinMode(FSK_PIN, OUTPUT);
   pinMode(SENSOR_PIN, INPUT);
   
   Serial.begin(9600);
@@ -27,15 +27,19 @@ void setup () {
 }
 
 void loop () {
-  if (digitalRead(SENSOR_PIN) == HIGH && !wait) {
+  if (digitalRead(SENSOR_PIN) == HIGH /*&& !wait*/) {
     Mirf.send((byte *) 1);
   
-    while(Mirf.isSending()){
+    /*while(Mirf.isSending()){
       // Wait
-    }
+    }*/
     
     wait = true;
   } else {
     wait = false;
+    
+    Mirf.send((byte *) 0); // Remover
   }
+  
+  while(Mirf.isSending()){} // Remover
 }
