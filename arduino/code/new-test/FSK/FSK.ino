@@ -17,7 +17,7 @@ const unsigned int ENC_END_TX   = charToAscii(END_TX);
 const double FREQ_RESOLUTION    = (double) SAMPLE_RATE / SAMPLES;
 const unsigned int DURATION     = (int) REPEAT * (1000 / FREQ_RESOLUTION);
 
-int frq[M + 1];
+int data[6];
 
 void setup() {
   pinMode(AUDIO_PIN, OUTPUT);
@@ -34,25 +34,27 @@ void encodeInt(int m) {
   char message[M];
   itoa(m, message, 10); // Convert int to ASCII: char * itoa (int value, char * str, int base)
 
-  frq[0] = ENC_START_TX;
+  data[0] = ENC_START_TX;
 
   for (int i = 0; i < M; i++) {
     if (message[i] == '\0') {
-       frq[i + 1] = ENC_END_TX;
+       data[i + 1] = ENC_END_TX;
 
        break; // Stop the loop
     }
 
-    frq[i + 1] = charToAscii(message[i]);
+    data[i + 1] = charToAscii(message[i]);
   }
 }
 
 void loop() {
   int i = 0;
-  int value = 123; //0 - 1023
-
+  int value = 1234; // 0 - 1023
+  
+  encodeInt(value);
+  
   do {
-    tone(AUDIO_PIN, frq[i]);
+    tone(AUDIO_PIN, data[i]);
     delay(DURATION);
     noTone(AUDIO_PIN);
   } while (frq[i++] !== ENC_END_TX);
