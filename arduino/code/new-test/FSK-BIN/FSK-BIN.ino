@@ -5,11 +5,11 @@ const unsigned int AUDIO_PIN  = 11;
 const char START_TX  = '?';
 const char END_TX    = '@';
 
-const unsigned int M            = 5;        // Frequency bins per Symbol
-const unsigned int SAMPLA_RATE  = 44100;    // Hz
-const unsigned int SAMPLES      = 512;      // 128, 256, 512, 1024
-const unsigned int REPEAT       = 3;        // Prolong the signal (for what?)
-const unsigned int OFFSET       = 60;       // Un-unsable bin on the spectrum's low end
+const unsigned int M            = 1;         // Frequency bins per Symbol
+const unsigned int SAMPLE_RATE  = 44100;     // Hz
+const unsigned int SAMPLES      = 8192;      // 128, 256, 512, 1024
+const unsigned int REPEAT       = 1;         // Prolong the signal (for what?)
+const unsigned int OFFSET       = 0;         // Un-unsable bin on the spectrum's low end
 
 
 const unsigned int ENC_START_TX = charToAscii(START_TX);
@@ -48,14 +48,9 @@ void encodeInt(int m) {
 }
 
 void loop() {
-  int i = 0;
-  int value = 1234; // 0 - 1023
-  
-  encodeInt(value);
-  
-  do {
-    tone(AUDIO_PIN, data[i]);
-    delay(DURATION);
+    tone(AUDIO_PIN, 400);
+    delay(5);
     noTone(AUDIO_PIN);
-  } while (frq[i++] !== ENC_END_TX);
+    delay(500);
 }
+
